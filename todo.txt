@@ -1,0 +1,6 @@
+[ ] Dimensionar a tabela de "cadastro de produtos" para o mobile.
+[ ] Criar a tela de venda finalizada, contendo o preço total.
+[ ] Tratar o preço para quando o usuário inserir vírgula.
+[ ] Apresentar o preço com vírgula.
+[X] Criar um script par alimentar o banco de dados com produtos reais
+
