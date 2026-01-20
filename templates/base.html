@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="utf-8">
+<title>PDV Flask</title>
+<style>
+body{font-family:Arial;margin:20px}
+table{width:100%;border-collapse:collapse}
+th,td{border:1px solid #ccc;padding:8px}
+input,button{font-size:18px;padding:6px}
+.total{font-size:24px;font-weight:bold;text-align:right}
+</style>
+</head>
+<body>
+<h1>PDV</h1>
+<nav>
+<a href="/venda">Venda</a> |
+<a href="/produtos">Produtos</a>
+</nav>
+<hr>
+{% block conteudo %}{% endblock %}
+</body>
+</html>

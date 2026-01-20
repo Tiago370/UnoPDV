@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block conteudo %}
+<h2>Venda</h2>
+<form method="post">
+<input name="codigo" placeholder="Leia o código de barras" autofocus>
+<button type="submit">Adicionar</button>
+</form>
+<table>
+<tr><th>Descrição</th><th>Preço</th></tr>
+{% for i in itens %}
+<tr>
+<td>{{ i.desc }}</td>
+<td>R$ {{ "%.2f"|format(i.preco) }}</td>
+</tr>
+{% endfor %}
+</table>
+<div class="total">TOTAL: R$ {{ "%.2f"|format(total) }}</div>
+<form action="/finalizar">
+<button type="submit">Finalizar Venda</button>
+</form>
+{% endblock %}
