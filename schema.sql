@@ -15,6 +15,7 @@ create table item_venda(
 	venda_id integer,
 	produto_id integer,
 	quantidade real,
+	descricao text,
 	preco_unit real,
 	foreign key(venda_id) references venda(id),
 	foreign key(produto_id) references produto(id)

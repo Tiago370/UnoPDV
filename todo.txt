@@ -8,4 +8,4 @@
 [X] Criar um aviso para quando o código não estiver cadastrado.
 [ ] Alterar a lógica para manter apenas o id da venda, e não os itens.
 [ ] Criar botão para enviar o cupom por whatsapp.
-[ ] Criar o readme.
+[X] Criar o readme.
