@@ -13,6 +13,11 @@
 <button type="submit" class="btn btn-success btn-lg">Adicionar</button>
 </div>
 </form>
+{% if item_inexistente %}
+<div class="alert alert-danger mt-3 mb-0" role="alert">
+Produto não cadastrado: <strong>{{ cod }}</strong>
+</div>
+{% endif %}
 </div>
 </div>
 <div class="card shadow-sm">

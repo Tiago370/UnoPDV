@@ -2,7 +2,7 @@ from flask import Flask,render_template,request,redirect,session
 import sqlite3,os
 from datetime import datetime
 app=Flask(__name__)
-app.secret_key="pdv2"
+app.secret_key="pdv4"
 def db():return sqlite3.connect("pdv.db")
 if not os.path.exists("pdv.db"):
     conn=db();c=conn.cursor()
@@ -25,6 +25,8 @@ def calcular_total():
 @app.route("/venda",methods=["GET","POST"])
 def venda():
     if "itens" not in session:session["itens"]=[]
+    item_inexistente = False
+    cod = False
     if request.method=="POST":
         conn=db();c=conn.cursor()
         codigo = request.form["codigo"]
@@ -35,12 +37,15 @@ def venda():
             qtd = 1.0
             cod = codigo 
         p=c.execute("select id,descricao,preco from produto where codigo=?",(cod,)).fetchone();conn.close()
-        preco = p[2]
-        sub_total = qtd * preco
-        if p:session["itens"].append({"id":p[0],"desc":p[1],"preco":p[2],"qtd":qtd, "sub_total":sub_total});session.modified=True
+        if not p:
+            item_inexistente = True
+        else:
+            preco = p[2]
+            sub_total = qtd * preco
+            session["itens"].append({"id":p[0],"desc":p[1],"preco":p[2],"qtd":qtd, "sub_total":sub_total});session.modified=True
 
     total = calcular_total()
-    return render_template("venda.html",itens=session["itens"],total=total)
+    return render_template("venda.html",itens=session["itens"],total=total,item_inexistente=item_inexistente,cod=cod)
 @app.route("/finalizar")
 def finalizar():
     conn=db();c=conn.cursor()
