@@ -5,6 +5,7 @@
 [X] Criar um script para alimentar o banco de dados com produtos reais
 [X] Criar arquivo .gitignore e remover o "pdv.db" no repositório remoto.
 [X] Criar campo "qtd" na venda e implementar a multiplicação no código de barras.
-[ ] Criar um aviso para quando o código não estiver cadastrado.
+[X] Criar um aviso para quando o código não estiver cadastrado.
 [ ] Alterar a lógica para manter apenas o id da venda, e não os itens.
-
+[ ] Criar botão para enviar o cupom por whatsapp.
+[ ] Criar o readme.
