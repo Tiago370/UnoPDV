@@ -6,9 +6,7 @@ app.secret_key="pdv4"
 def db():return sqlite3.connect("pdv.db")
 if not os.path.exists("pdv.db"):
     conn=db();c=conn.cursor()
-    c.execute("create table produto(id integer primary key,codigo text unique,descricao text,preco real)")
-    c.execute("create table venda(id integer primary key,data text)")
-    c.execute("create table item_venda(id integer primary key,venda_id integer,produto_id integer,quantidade real,preco_unit real)")
+    with open("schema.sql","r") as f:c.executescript(f.read())
     conn.commit();conn.close()
 @app.route("/")
 def index():return redirect("/venda")
