@@ -1,9 +1,10 @@
 [X] Dimensionar a tabela de "cadastro de produtos" para o mobile.
-[ ] Criar a tela de venda finalizada, contendo o preço total.
+[X] Criar a tela de venda finalizada, contendo o preço total.
 [X] Tratar o preço para quando o usuário inserir vírgula.
 [X] Apresentar o preço com vírgula.
-[X] Criar um script par alimentar o banco de dados com produtos reais
+[X] Criar um script para alimentar o banco de dados com produtos reais
 [X] Criar arquivo .gitignore e remover o "pdv.db" no repositório remoto.
 [X] Criar campo "qtd" na venda e implementar a multiplicação no código de barras.
-[ ] Criar um aviso para o quando o código não estiver cadastrado.
+[ ] Criar um aviso para quando o código não estiver cadastrado.
+[ ] Alterar a lógica para manter apenas o id da venda, e não os itens.
 

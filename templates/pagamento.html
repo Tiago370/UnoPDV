@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block conteudo %}
+<div class="d-flex justify-content-center align-items-center vh-100">
+  <div class="text-center">
+    <h4 class="mb-4">Total da Venda</h4>
+    <h1 class="fw-bold display-4">R$ {{ "%.2f"|format(total)|replace(".", ",") }}</h1>
+    <a href="/venda" class="btn btn-primary btn-lg mt-4">Nova Venda</a>
+  </div>
+</div>
+{% endblock %}
+
