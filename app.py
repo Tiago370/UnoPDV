@@ -16,7 +16,7 @@ def index():return redirect("/venda")
 def produtos():
     conn=db();c=conn.cursor()
     if request.method=="POST":
-        c.execute("insert into produto(codigo,descricao,preco) values(?,?,?)",(request.form["codigo"],request.form["descricao"],request.form["preco"]))
+        c.execute("insert into produto(codigo,descricao,preco) values(?,?,?)",(request.form["codigo"],request.form["descricao"],request.form["preco"].replace(",",".")))
         conn.commit();conn.close();return redirect("/produtos")
     produtos=c.execute("select * from produto").fetchall();conn.close()
     return render_template("produtos.html",produtos=produtos)
