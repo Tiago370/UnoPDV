@@ -4,4 +4,6 @@
 [X] Apresentar o preço com vírgula.
 [X] Criar um script par alimentar o banco de dados com produtos reais
 [X] Criar arquivo .gitignore e remover o "pdv.db" no repositório remoto.
-[ ] Criar campo "qtd" na venda e implementar a multiplicação no código de barras.
+[X] Criar campo "qtd" na venda e implementar a multiplicação no código de barras.
+[ ] Criar um aviso para o quando o código não estiver cadastrado.
+

@@ -22,14 +22,28 @@
 <thead class="table-dark">
 <tr>
 <th>Descrição</th>
-<th class="text-end">Preço</th>
 </tr>
 </thead>
 <tbody>
 {% for i in itens %}
 <tr>
-<td>{{ i.desc }}</td>
-<td class="text-end">R$ {{ "%.2f"|format(i.preco)|replace(".",",") }}</td>
+<td><strong>{{ i.desc }}</strong></td>
+</tr>
+<tr>
+<td>
+<table class="table table-sm mb-0 text-center">
+<tr class="fw-bold">
+<td>Qtd</td>
+<td>Preço</td>
+<td>Sub Total</td>
+</tr>
+<tr>
+<td>{{ "%.3f"|format(i.qtd)|replace(".",",") }}</td>
+<td>R$ {{ "%.2f"|format(i.preco)|replace(".",",") }}</td>
+<td>R$ {{ "%.2f"|format(i.sub_total)|replace(".",",") }}</td>
+</tr>
+</table>
+</td>
 </tr>
 {% endfor %}
 </tbody>
@@ -45,5 +59,6 @@
 </div>
 </div>
 </div>
+
 {% endblock %}
 

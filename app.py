@@ -2,7 +2,7 @@ from flask import Flask,render_template,request,redirect,session
 import sqlite3,os
 from datetime import datetime
 app=Flask(__name__)
-app.secret_key="pdv"
+app.secret_key="pdv2"
 def db():return sqlite3.connect("pdv.db")
 if not os.path.exists("pdv.db"):
     conn=db();c=conn.cursor()
@@ -25,9 +25,19 @@ def venda():
     if "itens" not in session:session["itens"]=[]
     if request.method=="POST":
         conn=db();c=conn.cursor()
-        p=c.execute("select id,descricao,preco from produto where codigo=?",(request.form["codigo"],)).fetchone();conn.close()
-        if p:session["itens"].append({"id":p[0],"desc":p[1],"preco":p[2]});session.modified=True
-    total=sum(i["preco"] for i in session["itens"])
+        codigo = request.form["codigo"]
+        if "*" in codigo:
+            qtd = float(codigo.split("*")[0])
+            cod = codigo.split("*")[1]
+        else:
+            qtd = 1.0
+            cod = codigo 
+        p=c.execute("select id,descricao,preco from produto where codigo=?",(cod,)).fetchone();conn.close()
+        preco = p[2]
+        sub_total = qtd * preco
+        if p:session["itens"].append({"id":p[0],"desc":p[1],"preco":p[2],"qtd":qtd, "sub_total":sub_total});session.modified=True
+
+    total=sum(i["sub_total"] for i in session["itens"])
     return render_template("venda.html",itens=session["itens"],total=total)
 @app.route("/finalizar")
 def finalizar():
