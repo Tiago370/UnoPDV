@@ -13,9 +13,9 @@
 <button type="submit" class="btn btn-success btn-lg">Adicionar</button>
 </div>
 </form>
-{% if item_inexistente %}
+{% if message_type == "danger" %}
 <div class="alert alert-danger mt-3 mb-0" role="alert">
-Produto não cadastrado: <strong>{{ cod }}</strong>
+{{ message_text|safe }}
 </div>
 {% endif %}
 </div>

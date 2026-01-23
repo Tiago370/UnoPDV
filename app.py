@@ -22,8 +22,9 @@ def calcular_total():
     return sum(i["sub_total"] for i in session["itens"])
 @app.route("/venda",methods=["GET","POST"])
 def venda():
+    message_type = False
+    message_text = False
     if "itens" not in session:session["itens"]=[]
-    item_inexistente = False
     cod = False
     if request.method=="POST":
         conn=db();c=conn.cursor()
@@ -36,14 +37,17 @@ def venda():
             cod = codigo 
         p=c.execute("select id,descricao,preco from produto where codigo=?",(cod,)).fetchone();conn.close()
         if not p:
-            item_inexistente = True
+            message_type = "danger"
+            message_text = "Produto não cadastrado: <strong>" + codigo + "</strong>"
+
         else:
             preco = p[2]
             sub_total = qtd * preco
             session["itens"].append({"id":p[0],"desc":p[1],"preco":p[2],"qtd":qtd, "sub_total":sub_total});session.modified=True
 
     total = calcular_total()
-    return render_template("venda.html",itens=session["itens"],total=total,item_inexistente=item_inexistente,cod=cod)
+    return render_template("venda.html",itens=session["itens"],total=total,cod=cod,message_type=message_type,message_text=message_text)
+
 @app.route("/finalizar")
 def finalizar():
     conn=db();c=conn.cursor()
