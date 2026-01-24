@@ -1,8 +1,9 @@
+import re
 from flask import Flask,render_template,request,redirect,session
 import sqlite3,os
 from datetime import datetime
 app=Flask(__name__)
-app.secret_key="pdv4"
+app.secret_key="pdv7"
 def db():return sqlite3.connect("pdv.db")
 if not os.path.exists("pdv.db"):
     conn=db();c=conn.cursor()
@@ -20,6 +21,19 @@ def produtos():
     return render_template("produtos.html",produtos=produtos)
 def calcular_total():
     return sum(i["sub_total"] for i in session["itens"])
+
+def valida_instrucao_codigo(s):
+    return bool(re.match(r'^\d+([*x]\d+)*$', s))
+
+def extrair_qtd_cod(codigo_str):
+    if not valida_instrucao_codigo(codigo_str):
+        return False, False
+    codigo_str = codigo_str.replace("x", "*")
+    partes = codigo_str.split("*")
+    qtd = 1.0
+    for p in partes[:-1]: qtd *= float(p)
+    return qtd, partes[-1]
+
 @app.route("/venda",methods=["GET","POST"])
 def venda():
     message_type = False
@@ -29,22 +43,22 @@ def venda():
     if request.method=="POST":
         conn=db();c=conn.cursor()
         codigo = request.form["codigo"]
-        if "*" in codigo:
-            qtd = float(codigo.split("*")[0])
-            cod = codigo.split("*")[1]
-        else:
-            qtd = 1.0
-            cod = codigo 
-        p=c.execute("select id,descricao,preco from produto where codigo=?",(cod,)).fetchone();conn.close()
-        if not p:
-            message_type = "danger"
-            message_text = "Produto não cadastrado: <strong>" + codigo + "</strong>"
+        if codigo:
+            qtd, cod = extrair_qtd_cod(codigo)
+            if qtd:
+                p=c.execute("select id,descricao,preco from produto where codigo=?",(cod,)).fetchone();conn.close()
+                if not p:
+                    message_type = "danger"
+                    message_text = "Produto não cadastrado: <strong>" + codigo + "</strong>"
 
-        else:
-            preco = p[2]
-            sub_total = qtd * preco
-            session["itens"].append({"id":p[0],"desc":p[1],"preco":p[2],"qtd":qtd, "sub_total":sub_total});session.modified=True
+                else:
+                    preco = p[2]
+                    sub_total = qtd * preco
+                    session["itens"].append({"id":p[0],"desc":p[1],"preco":p[2],"qtd":qtd, "sub_total":sub_total});session.modified=True
 
+            else:
+                message_type = "danger"
+                message_text = "Instrução inválida: <strong>" + codigo + "</strong>"
     total = calcular_total()
     return render_template("venda.html",itens=session["itens"],total=total,cod=cod,message_type=message_type,message_text=message_text)
 
