@@ -12,18 +12,38 @@ if not os.path.exists("pdv.db"):
 @app.route("/")
 def index():return redirect("/venda")
 
+def buscar_produto_por_id(id):
+    conn=db();cur=conn.cursor()
+    cur.execute("SELECT id, codigo, descricao, preco FROM produto WHERE id = ?", (id,))
+    produto = cur.fetchone()
+    conn.close()
+    return produto
+
 @app.route("/produtos",methods=["GET","POST"])
 def produtos():
     conn=db();c=conn.cursor()
+    editar_id = request.args.get("editar_id")
+    produto_edicao = None
+    if editar_id:
+        produto_edicao = buscar_produto_por_id(editar_id)
+
     if request.method=="POST":
-        c.execute("insert into produto(codigo,descricao,preco) values(?,?,?)",(request.form["codigo"],request.form["descricao"],request.form["preco"]))
-        conn.commit();conn.close();return redirect(url_for("produtos"))
+        codigo=request.form["codigo"];descricao=request.form["descricao"];preco=request.form["preco"]
+        c.execute("select id from produto where codigo=?",(codigo,))
+        produto=c.fetchone()
+        if produto:
+            c.execute("update produto set descricao=?,preco=? where codigo=?",(descricao,preco,codigo))
+        else:
+            c.execute("insert into produto(codigo,descricao,preco) values(?,?,?)",(codigo,descricao,preco))
+        conn.commit();conn.close();return redirect("/produtos")
+
+
     page=int(request.args.get("page",1));per_page=10;offset=(page-1)*per_page
     total=c.execute("select count(*) from produto").fetchone()[0]
     produtos=c.execute("select * from produto limit ? offset ?",(per_page,offset)).fetchall()
     conn.close()
     total_pages=(total+per_page-1)//per_page
-    return render_template("produtos.html",produtos=produtos,page=page,total_pages=total_pages)
+    return render_template("produtos.html",produtos=produtos,page=page,total_pages=total_pages,produto_edicao=produto_edicao)
 
 def calcular_total():
     return sum(i["sub_total"] for i in session["itens"])

@@ -8,13 +8,13 @@
 <div class="card-body">
 <form method="post" class="row g-3">
 <div class="col-md-4">
-<input class="form-control" name="codigo" placeholder="Código de barras" required>
+<input class="form-control" name="codigo" placeholder="Código de barras" value="{{ produto_edicao[1] if produto_edicao else '' }}" required>
 </div>
 <div class="col-md-5">
-<input class="form-control" name="descricao" placeholder="Descrição" required>
+<input class="form-control" name="descricao" placeholder="Descrição" value="{{ produto_edicao[2] if produto_edicao else '' }}" required>
 </div>
 <div class="col-md-3">
-<input class="form-control" name="preco" placeholder="Preço" step="0.01" required>
+<input class="form-control" name="preco" placeholder="Preço" step="0.01" value="{{ produto_edicao[3] if produto_edicao else '' }}" required>
 </div>
 <div class="col-12 d-grid">
 <button type="submit" class="btn btn-primary">Salvar</button>
@@ -36,12 +36,13 @@
 
 <tbody>
 {% for p in produtos %}
-<tr>
+<tr onclick="window.location='{{ url_for('produtos', editar_id=p[0]) }}'" style="cursor:pointer;">
 <td>{{ p[1] }}</td>
 <td>{{ p[2] }}</td>
 <td class="text-end">R$ {{ "%.2f"|format(p[3])|replace(".",",") }}</td>
 </tr>
 {% endfor %}
+</tbody>
 
 </tbody>
 
