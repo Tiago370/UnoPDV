@@ -22,28 +22,37 @@ def buscar_produto_por_id(id):
 @app.route("/produtos",methods=["GET","POST"])
 def produtos():
     conn=db();c=conn.cursor()
-    editar_id = request.args.get("editar_id")
-    produto_edicao = None
+    editar_id=request.args.get("editar_id")
+    produto_edicao=None
     if editar_id:
-        produto_edicao = buscar_produto_por_id(editar_id)
-
+        produto_edicao=buscar_produto_por_id(editar_id)
+    filtros=[];valores=[]
     if request.method=="POST":
-        codigo=request.form["codigo"];descricao=request.form["descricao"];preco=request.form["preco"]
-        c.execute("select id from produto where codigo=?",(codigo,))
-        produto=c.fetchone()
-        if produto:
-            c.execute("update produto set descricao=?,preco=? where codigo=?",(descricao,preco,codigo))
-        else:
-            c.execute("insert into produto(codigo,descricao,preco) values(?,?,?)",(codigo,descricao,preco))
-        conn.commit();conn.close();return redirect("/produtos")
-
-
+        acao=request.form["acao"]
+        codigo=request.form["codigo"]
+        descricao=request.form["descricao"]
+        preco=request.form.get("preco")
+        if acao=="consultar":
+            if codigo:
+                filtros.append("codigo LIKE ?");valores.append(f"%{codigo}%")
+            if descricao:
+                filtros.append("descricao LIKE ?");valores.append(f"%{descricao}%")
+        elif acao=="salvar":
+            c.execute("select id from produto where codigo=?",(codigo,))
+            produto=c.fetchone()
+            if produto:
+                c.execute("update produto set descricao=?,preco=? where codigo=?",(descricao,preco,codigo))
+            else:
+                c.execute("insert into produto(codigo,descricao,preco) values(?,?,?)",(codigo,descricao,preco))
+            conn.commit();conn.close();return redirect("/produtos")
     page=int(request.args.get("page",1));per_page=10;offset=(page-1)*per_page
-    total=c.execute("select count(*) from produto").fetchone()[0]
-    produtos=c.execute("select * from produto limit ? offset ?",(per_page,offset)).fetchall()
+    where=" where "+" and ".join(filtros) if filtros else ""
+    total=c.execute(f"select count(*) from produto{where}",valores).fetchone()[0]
+    produtos=c.execute(f"select * from produto{where} limit ? offset ?",valores+[per_page,offset]).fetchall()
     conn.close()
     total_pages=(total+per_page-1)//per_page
     return render_template("produtos.html",produtos=produtos,page=page,total_pages=total_pages,produto_edicao=produto_edicao)
+
 
 def calcular_total():
     return sum(i["sub_total"] for i in session["itens"])

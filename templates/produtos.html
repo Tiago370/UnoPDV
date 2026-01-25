@@ -8,17 +8,19 @@
 <div class="card-body">
 <form method="post" class="row g-3">
 <div class="col-md-4">
-<input class="form-control" name="codigo" placeholder="Código de barras" value="{{ produto_edicao[1] if produto_edicao else '' }}" required>
+<input class="form-control" name="codigo" placeholder="Código de barras" value="{{ produto_edicao[1] if produto_edicao else '' }}" >
 </div>
 <div class="col-md-5">
-<input class="form-control" name="descricao" placeholder="Descrição" value="{{ produto_edicao[2] if produto_edicao else '' }}" required>
+<input class="form-control" name="descricao" placeholder="Descrição" value="{{ produto_edicao[2] if produto_edicao else '' }}" >
 </div>
 <div class="col-md-3">
-<input class="form-control" name="preco" placeholder="Preço" step="0.01" value="{{ produto_edicao[3] if produto_edicao else '' }}" required>
+<input class="form-control" name="preco" placeholder="Preço" step="0.01" value="{{ produto_edicao[3] if produto_edicao else '' }}" >
 </div>
-<div class="col-12 d-grid">
-<button type="submit" class="btn btn-primary">Salvar</button>
+<div class="col-12 d-flex gap-2">
+  <button type="submit" name="acao" value="consultar" class="btn btn-info w-50">Consultar</button>
+  <button type="submit" name="acao" value="salvar" class="btn btn-primary w-50">Salvar</button>
 </div>
+
 </form>
 </div>
 </div>
