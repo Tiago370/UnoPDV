@@ -16,10 +16,12 @@
 <div class="col-md-3">
 <input class="form-control" name="preco" placeholder="Preço" step="0.01" value="{{ produto_edicao[3] if produto_edicao else '' }}" >
 </div>
-<div class="col-12 d-flex gap-2">
-  <button type="submit" name="acao" value="consultar" class="btn btn-info w-50">Consultar</button>
-  <button type="submit" name="acao" value="salvar" class="btn btn-primary w-50">Salvar</button>
+<div class="col-12 d-flex flex-column gap-2">
+  <button type="submit" name="acao" value="consultar" class="btn btn-info w-100">Consultar</button>
+  <button type="submit" name="acao" value="salvar" class="btn btn-primary w-100">Salvar</button>
+  <button type="submit" name="acao" value="deletar" class="btn btn-danger w-100">Deletar</button>
 </div>
+
 
 </form>
 </div>

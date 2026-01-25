@@ -44,6 +44,9 @@ def produtos():
                 c.execute("update produto set descricao=?,preco=? where codigo=?",(descricao,preco,codigo))
             else:
                 c.execute("insert into produto(codigo,descricao,preco) values(?,?,?)",(codigo,descricao,preco))
+        elif acao=="deletar":
+            c.execute("delete from produto where codigo=?", (codigo,))
+
             conn.commit();conn.close();return redirect("/produtos")
     page=int(request.args.get("page",1));per_page=1000;offset=(page-1)*per_page
     where=" where "+" and ".join(filtros) if filtros else ""
