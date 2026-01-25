@@ -45,7 +45,7 @@ def produtos():
             else:
                 c.execute("insert into produto(codigo,descricao,preco) values(?,?,?)",(codigo,descricao,preco))
             conn.commit();conn.close();return redirect("/produtos")
-    page=int(request.args.get("page",1));per_page=10;offset=(page-1)*per_page
+    page=int(request.args.get("page",1));per_page=1000;offset=(page-1)*per_page
     where=" where "+" and ".join(filtros) if filtros else ""
     total=c.execute(f"select count(*) from produto{where}",valores).fetchone()[0]
     produtos=c.execute(f"select * from produto{where} limit ? offset ?",valores+[per_page,offset]).fetchall()

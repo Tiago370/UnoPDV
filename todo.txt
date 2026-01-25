@@ -18,4 +18,6 @@
 [X] Criar paginação na tela de produtos.
 [ ] Criar um registro de promoção.
 [X] Implementar a edição de produtos.
-[ ] Implementar a consulta de produtos.
+[X] Implementar a consulta de produtos.
+[ ] FIX consulta de produtos mantendo os dados dos forms.
+[ ] FIX consulta de produtos (paginação).
