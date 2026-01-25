@@ -15,3 +15,5 @@
 [ ] Criar um registro de packs.
 [ ] Criar lógica que avalia os termos de uma multiplicação em cadeia e verifica se um os termos corresponde a um pack do código.
 [ ] Criar um conjunto de regras (acima de X unidades o produto custa Y)
+[X] Criar paginação na tela de produtos.
+[ ] Criar um registro de promoção.

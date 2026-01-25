@@ -11,14 +11,20 @@ if not os.path.exists("pdv.db"):
     conn.commit();conn.close()
 @app.route("/")
 def index():return redirect("/venda")
+
 @app.route("/produtos",methods=["GET","POST"])
 def produtos():
     conn=db();c=conn.cursor()
     if request.method=="POST":
-        c.execute("insert into produto(codigo,descricao,preco) values(?,?,?)",(request.form["codigo"],request.form["descricao"],request.form["preco"].replace(",",".")))
-        conn.commit();conn.close();return redirect("/produtos")
-    produtos=c.execute("select * from produto").fetchall();conn.close()
-    return render_template("produtos.html",produtos=produtos)
+        c.execute("insert into produto(codigo,descricao,preco) values(?,?,?)",(request.form["codigo"],request.form["descricao"],request.form["preco"]))
+        conn.commit();conn.close();return redirect(url_for("produtos"))
+    page=int(request.args.get("page",1));per_page=10;offset=(page-1)*per_page
+    total=c.execute("select count(*) from produto").fetchone()[0]
+    produtos=c.execute("select * from produto limit ? offset ?",(per_page,offset)).fetchall()
+    conn.close()
+    total_pages=(total+per_page-1)//per_page
+    return render_template("produtos.html",produtos=produtos,page=page,total_pages=total_pages)
+
 def calcular_total():
     return sum(i["sub_total"] for i in session["itens"])
 

@@ -33,6 +33,7 @@
 <th class="text-end">Preço</th>
 </tr>
 </thead>
+
 <tbody>
 {% for p in produtos %}
 <tr>
@@ -41,9 +42,51 @@
 <td class="text-end">R$ {{ "%.2f"|format(p[3])|replace(".",",") }}</td>
 </tr>
 {% endfor %}
+
 </tbody>
+
 </table>
 </div>
+<nav class="p-3">
+<ul class="pagination justify-content-center mb-0">
+
+<li class="page-item {% if page==1 %}disabled{% endif %}">
+<a class="page-link" href="{{ url_for('produtos',page=page-1) }}">Anterior</a>
+</li>
+
+<li class="page-item {% if page==1 %}active{% endif %}">
+<a class="page-link" href="{{ url_for('produtos',page=1) }}">1</a>
+</li>
+
+{% if page > 4 %}
+<li class="page-item disabled"><span class="page-link">...</span></li>
+{% endif %}
+
+{% for p in range(page-2,page+3) %}
+{% if p > 1 and p < total_pages %}
+<li class="page-item {% if p==page %}active{% endif %}">
+<a class="page-link" href="{{ url_for('produtos',page=p) }}">{{ p }}</a>
+</li>
+{% endif %}
+{% endfor %}
+
+{% if page < total_pages-3 %}
+<li class="page-item disabled"><span class="page-link">...</span></li>
+{% endif %}
+
+{% if total_pages > 1 %}
+<li class="page-item {% if page==total_pages %}active{% endif %}">
+<a class="page-link" href="{{ url_for('produtos',page=total_pages) }}">{{ total_pages }}</a>
+</li>
+{% endif %}
+
+<li class="page-item {% if page==total_pages %}disabled{% endif %}">
+<a class="page-link" href="{{ url_for('produtos',page=page+1) }}">Próxima</a>
+</li>
+
+</ul>
+</nav>
+
 </div>
 </div>
 </div>
