@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block conteudo %}
+<div class="container mt-4">
+<div class="row justify-content-center">
+<div class="col-lg-8 col-md-10 col-sm-12">
+<div class="card shadow-sm">
+<div class="card-header fw-bold">Cadastro de Packs</div>
+<div class="card-body">
+<form method="post" class="row g-3">
+<div class="col-md-4">
+<input class="form-control" name="codigo" placeholder="Código de barras" value="{{ pack_edicao[1] if pack_edicao else '' }}" >
+</div>
+<div class="col-md-5">
+<input class="form-control" name="nome" placeholder="Nome" value="{{ pack_edicao[2] if pack_edicao else '' }}" >
+</div>
+<div class="col-md-5">
+<input class="form-control" name="mnemonico" placeholder="Mnemônico" value="{{ pack_edicao[3] if pack_edicao else "" }}" >
+</div>
+<div class="col-md-3">
+<input class="form-control" name="quantidade" placeholder="Qtd" value="{{ produto_edicao[4] if produto_edicao else '' }}" >
+</div>
+<div class="col-12 d-flex flex-column gap-2">
+  <button type="submit" name="acao" value="consultar" class="btn btn-info w-100">Consultar</button>
+  <button type="submit" name="acao" value="salvar" class="btn btn-primary w-100">Salvar</button>
+  <button type="submit" name="acao" value="deletar" class="btn btn-danger w-100">Deletar</button>
+</div>
+
+
+</form>
+</div>
+</div>
+<div class="card mt-4 shadow-sm">
+<div class="card-body p-0">
+<div class="table-responsive">
+<table class="table table-striped table-hover mb-0">
+<thead class="table-dark">
+<tr>
+<th>Código</th>
+<th>Nome</th>
+<th>Mnemônico</th>
+<th>Qtd</th>
+</tr>
+</thead>
+
+<tbody>
+{% for p in packs %}
+<tr onclick="window.location='{{ url_for('packs', editar_id=p[0]) }}'" style="cursor:pointer;">
+<td>{{ p[4] }}</td>
+<td>{{ p[1] }}</td>
+<td>{{ p[2] }}</td>
+<td>{{ p[3] }}</td>
+</tr>
+{% endfor %}
+</tbody>
+
+</tbody>
+
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+{% endblock %}
+

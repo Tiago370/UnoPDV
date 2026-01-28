@@ -109,4 +109,29 @@ def finalizar():
     total = calcular_total()
     session["itens"]=[]
     return render_template("pagamento.html",total=total)
+
+def buscar_pack_por_id(id):
+    conn=db();cur=conn.cursor()
+    cur.execute("SELECT id, codigo, nome, mnemonico, quantidade FROM pack WHERE id = ?", (id,))
+    pack = cur.fetchone()
+    conn.close()
+    return pack
+
+@app.route("/packs",methods=["GET","POST"])
+def packs():
+    conn=db();c=conn.cursor()
+    if request.method=="POST":
+        acao=request.form["acao"]
+        codigo=request.form["codigo"]
+        nome=request.form["nome"]
+        mnemonico=request.form.get("mnemonico")
+        quantidade=request.form.get("quantidade")
+        if acao=="salvar":
+            c.execute("insert into pack(codigo,nome,mnemonico,quantidade) values(?,?,?,?)",(codigo,nome,mnemonico,quantidade))
+            conn.commit();conn.close();return redirect("/packs")
+
+    packs=c.execute(f"select * from pack").fetchall()
+    conn.close()
+    return render_template("packs.html",packs=packs)
+
 app.run(debug=True)
