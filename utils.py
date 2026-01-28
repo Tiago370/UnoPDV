@@ -1,4 +1,6 @@
 import sqlite3,os
+from flask import session
+
 def db():return sqlite3.connect("pdv.db")
 
 def init_db():
@@ -6,3 +8,6 @@ def init_db():
         conn=db();c=conn.cursor()
         with open("schema.sql","r") as f:c.executescript(f.read())
         conn.commit();conn.close()
+
+def calcular_total():
+    return sum(i["sub_total"] for i in session["itens"])

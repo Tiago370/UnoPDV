@@ -23,4 +23,4 @@
 [ ] FIX consulta de produtos (paginação).
 [X] Criar consulta de packs.
 [X] Refatorar produtos.
-[ ] Refatorar vendas.
+[X] Refatorar vendas.
