@@ -131,9 +131,15 @@ def packs():
         nome=request.form["nome"]
         mnemonico=request.form.get("mnemonico")
         quantidade=request.form.get("quantidade")
+        id = request.form.get("id")
         if acao=="salvar":
+            c.execute("select id from pack where id=?",(id,))
+            pack=c.fetchone()
+        if pack:
+            c.execute("update pack set codigo=?,nome=?,mnemonico=?,quantidade=? where id=?",(codigo,nome,mnemonico,quantidade,id))
+        else:
             c.execute("insert into pack(codigo,nome,mnemonico,quantidade) values(?,?,?,?)",(codigo,nome,mnemonico,quantidade))
-            conn.commit();conn.close();return redirect("/packs")
+        conn.commit();conn.close();return redirect("/packs")
 
     packs=c.execute(f"select * from pack").fetchall()
     conn.close()

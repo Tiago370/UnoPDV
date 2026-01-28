@@ -19,6 +19,8 @@
 <div class="col-md-3">
 <input class="form-control" name="quantidade" placeholder="Qtd" value="{{ pack_edicao[4] if pack_edicao else '' }}" >
 </div>
+<input type="hidden" name="id" value="{{ pack_edicao[0] if pack_edicao else ''}}">
+
 <div class="col-12 d-flex flex-column gap-2">
   <button type="submit" name="acao" value="consultar" class="btn btn-info w-100">Consultar</button>
   <button type="submit" name="acao" value="salvar" class="btn btn-primary w-100">Salvar</button>
