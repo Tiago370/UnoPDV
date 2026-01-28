@@ -12,7 +12,7 @@
 [X] Implementar multiplicação em cadeia.
 [X] Possibilitar o uso do caractere "x".
 [X] Criar um boloqueio dos caracteres não numéricos.
-[>] Criar um registro de packs.
+[X] Criar um registro de packs.
 [ ] Criar lógica que avalia os termos de uma multiplicação em cadeia e verifica se um os termos corresponde a um pack do código.
 [ ] Criar um conjunto de regras (acima de X unidades o produto custa Y)
 [X] Criar paginação na tela de produtos.
@@ -21,3 +21,4 @@
 [X] Implementar a consulta de produtos.
 [ ] FIX consulta de produtos mantendo os dados dos forms.
 [ ] FIX consulta de produtos (paginação).
+[ ] Criar consulta de packs.

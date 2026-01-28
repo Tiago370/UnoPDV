@@ -125,6 +125,7 @@ def packs():
     if editar_id:
         pack_edicao=buscar_pack_por_id(editar_id)
 
+    filtros=[];valores=[]
     if request.method=="POST":
         acao=request.form["acao"]
         codigo=request.form["codigo"]
@@ -135,13 +136,19 @@ def packs():
         if acao=="salvar":
             c.execute("select id from pack where id=?",(id,))
             pack=c.fetchone()
-        if pack:
-            c.execute("update pack set codigo=?,nome=?,mnemonico=?,quantidade=? where id=?",(codigo,nome,mnemonico,quantidade,id))
-        else:
-            c.execute("insert into pack(codigo,nome,mnemonico,quantidade) values(?,?,?,?)",(codigo,nome,mnemonico,quantidade))
-        conn.commit();conn.close();return redirect("/packs")
+            if pack:
+                c.execute("update pack set codigo=?,nome=?,mnemonico=?,quantidade=? where id=?",(codigo,nome,mnemonico,quantidade,id))
+            else:
+                c.execute("insert into pack(codigo,nome,mnemonico,quantidade) values(?,?,?,?)",(codigo,nome,mnemonico,quantidade))
+            conn.commit();conn.close();return redirect("/packs")
 
-    packs=c.execute(f"select * from pack").fetchall()
+        elif acao=="consultar":
+            if codigo:
+                filtros.append("codigo LIKE ?");
+                valores.append(f"%{codigo}%")
+
+    where=" where "+" and ".join(filtros) if filtros else ""
+    packs=c.execute(f"select * from pack{where}",valores).fetchall()
     conn.close()
     return render_template("packs.html",packs=packs,pack_edicao=pack_edicao)
 
