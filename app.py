@@ -147,6 +147,10 @@ def packs():
                 filtros.append("codigo LIKE ?");
                 valores.append(f"%{codigo}%")
 
+        elif acao=="deletar":
+            c.execute("delete from pack where id=?", (id,))
+            conn.commit();conn.close();return redirect("/packs")
+
     where=" where "+" and ".join(filtros) if filtros else ""
     packs=c.execute(f"select * from pack{where}",valores).fetchall()
     conn.close()
