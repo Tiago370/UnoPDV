@@ -24,3 +24,6 @@
 [X] Criar consulta de packs.
 [X] Refatorar produtos.
 [X] Refatorar vendas.
+[X] Refatorar pagamentos.
+[ ] Implementar a cópia da descrição do poduto o item de venda.
+[ ] Implementar a visualização e auditagem das vendas realizadas.
