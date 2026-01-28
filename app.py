@@ -2,13 +2,13 @@ import re
 from flask import Flask,render_template,request,redirect,session
 import sqlite3,os
 from datetime import datetime
+from utils import db, init_db
+
 app=Flask(__name__)
 app.secret_key="pdv7"
-def db():return sqlite3.connect("pdv.db")
-if not os.path.exists("pdv.db"):
-    conn=db();c=conn.cursor()
-    with open("schema.sql","r") as f:c.executescript(f.read())
-    conn.commit();conn.close()
+
+init_db()
+
 @app.route("/")
 def index():return redirect("/venda")
 
