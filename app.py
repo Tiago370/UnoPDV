@@ -120,6 +120,11 @@ def buscar_pack_por_id(id):
 @app.route("/packs",methods=["GET","POST"])
 def packs():
     conn=db();c=conn.cursor()
+    editar_id=request.args.get("editar_id")
+    pack_edicao=None
+    if editar_id:
+        pack_edicao=buscar_pack_por_id(editar_id)
+
     if request.method=="POST":
         acao=request.form["acao"]
         codigo=request.form["codigo"]
@@ -132,6 +137,6 @@ def packs():
 
     packs=c.execute(f"select * from pack").fetchall()
     conn.close()
-    return render_template("packs.html",packs=packs)
+    return render_template("packs.html",packs=packs,pack_edicao=pack_edicao)
 
 app.run(debug=True)
