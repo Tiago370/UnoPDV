@@ -40,7 +40,7 @@
 
 <tbody>
 {% for p in produtos %}
-<tr onclick="window.location='{{ url_for('produtos', editar_id=p[0]) }}'" style="cursor:pointer;">
+<tr onclick="window.location='{{ url_for('produto.produtos', editar_id=p[0]) }}'" style="cursor:pointer;">
 <td>{{ p[1] }}</td>
 <td>{{ p[2] }}</td>
 <td class="text-end">R$ {{ "%.2f"|format(p[3])|replace(".",",") }}</td>
@@ -56,11 +56,11 @@
 <ul class="pagination justify-content-center mb-0">
 
 <li class="page-item {% if page==1 %}disabled{% endif %}">
-<a class="page-link" href="{{ url_for('produtos',page=page-1) }}">Anterior</a>
+<a class="page-link" href="{{ url_for('produto.produtos',page=page-1) }}">Anterior</a>
 </li>
 
 <li class="page-item {% if page==1 %}active{% endif %}">
-<a class="page-link" href="{{ url_for('produtos',page=1) }}">1</a>
+<a class="page-link" href="{{ url_for('produto.produtos',page=1) }}">1</a>
 </li>
 
 {% if page > 4 %}
@@ -70,7 +70,7 @@
 {% for p in range(page-2,page+3) %}
 {% if p > 1 and p < total_pages %}
 <li class="page-item {% if p==page %}active{% endif %}">
-<a class="page-link" href="{{ url_for('produtos',page=p) }}">{{ p }}</a>
+<a class="page-link" href="{{ url_for('produto.produtos',page=p) }}">{{ p }}</a>
 </li>
 {% endif %}
 {% endfor %}
@@ -81,12 +81,12 @@
 
 {% if total_pages > 1 %}
 <li class="page-item {% if page==total_pages %}active{% endif %}">
-<a class="page-link" href="{{ url_for('produtos',page=total_pages) }}">{{ total_pages }}</a>
+<a class="page-link" href="{{ url_for('produto.produtos',page=total_pages) }}">{{ total_pages }}</a>
 </li>
 {% endif %}
 
 <li class="page-item {% if page==total_pages %}disabled{% endif %}">
-<a class="page-link" href="{{ url_for('produtos',page=page+1) }}">Próxima</a>
+<a class="page-link" href="{{ url_for('produto.produtos',page=page+1) }}">Próxima</a>
 </li>
 
 </ul>

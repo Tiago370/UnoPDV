@@ -21,4 +21,6 @@
 [X] Implementar a consulta de produtos.
 [ ] FIX consulta de produtos mantendo os dados dos forms.
 [ ] FIX consulta de produtos (paginação).
-[ ] Criar consulta de packs.
+[X] Criar consulta de packs.
+[X] Refatorar produtos.
+[ ] Refatorar vendas.
