@@ -18,6 +18,16 @@
 {{ message_text|safe }}
 </div>
 {% endif %}
+{% if message_type == "info" %}
+<div class="alert alert-info mt-3 mb-0" role="alert">
+{{ message_text|safe }}
+</div>
+{% endif %}
+{% if message_type == "success" %}
+<div class="alert alert-success mt-3 mb-0" role="alert">
+{{ message_text|safe }}
+</div>
+{% endif %}
 </div>
 </div>
 <div class="card shadow-sm">
