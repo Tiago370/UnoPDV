@@ -6,7 +6,7 @@ pack_bp = Blueprint("pack", __name__)
 def buscar_pack_por_id(id):
     conn=db();
     cur=conn.cursor()
-    cur.execute("SELECT id, codigo, nome, mnemonico, quantidade FROM pack WHERE id = ?", (id,))
+    cur.execute("SELECT id, codigo, nome_sg, nome_pl, mnemonico, quantidade FROM pack WHERE id = ?", (id,))
     pack = cur.fetchone()
     conn.close()
     return pack
@@ -23,7 +23,8 @@ def packs():
     if request.method=="POST":
         acao=request.form["acao"]
         codigo=request.form["codigo"]
-        nome=request.form["nome"]
+        nome_sg=request.form["nome_sg"]
+        nome_pl=request.form["nome_pl"]
         mnemonico=request.form.get("mnemonico")
         quantidade=request.form.get("quantidade")
         id = request.form.get("id")
@@ -31,9 +32,9 @@ def packs():
             c.execute("select id from pack where id=?",(id,))
             pack=c.fetchone()
             if pack:
-                c.execute("update pack set codigo=?,nome=?,mnemonico=?,quantidade=? where id=?",(codigo,nome,mnemonico,quantidade,id))
+                c.execute("update pack set codigo=?,nome_sg=?,nome_pl=?,mnemonico=?,quantidade=? where id=?",(codigo,nome_sg,nome_pl,mnemonico,quantidade,id))
             else:
-                c.execute("insert into pack(codigo,nome,mnemonico,quantidade) values(?,?,?,?)",(codigo,nome,mnemonico,quantidade))
+                c.execute("insert into pack(codigo,nome_sg,nome_pl,mnemonico,quantidade) values(?,?,?,?,?)",(codigo,nome_sg,nome_pl,mnemonico,quantidade))
             conn.commit();conn.close();return redirect("/packs")
 
         elif acao=="consultar":

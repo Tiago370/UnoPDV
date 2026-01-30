@@ -7,6 +7,14 @@ venda_bp = Blueprint("venda", __name__)
 def valida_instrucao_codigo(s):
     return bool(re.match(r'^\d+([*x]\d+)*$', s))
 
+def buscar_pack_por_cod(cod):
+    conn=db();
+    cur=conn.cursor()
+    cur.execute("SELECT id, codigo, nome_sg, nome_pl, mnemonico, quantidade FROM pack WHERE codigo = ?", (cod,))
+    pack = cur.fetchone()
+    conn.close()
+    return pack
+
 def classificar_instrucao(instr):
     instr=instr.strip().lower()
     if not re.fullmatch(r'[a-z0-9]+(\*[a-z0-9]+)*',instr):
@@ -63,6 +71,25 @@ def venda():
                     cod = termos["codigo"]
                     message_type = "info"
                     message_text = str(qtd) + " unidades do produto <strong>" + cod + "</strong>"
+                    pack = buscar_pack_por_cod(cod)
+                    if pack:
+                        quantidade = int(pack[5])
+                        print(quantidade)
+                        if qtd >= quantidade:
+                            n = int(qtd/quantidade)
+                            r = qtd - n*quantidade
+                            if n == 1:
+                                nome = pack[2]
+                            else:
+                                nome = pack[3]
+                            if r == 1:
+                                unidade_text = "unidade"
+                            else:
+                                unidade_text = "unidades"
+                            if not r:
+                                message_text = "A quantidade é exatamente igual a " + str(n) + " " + str(nome) + "."
+                            else:
+                                message_text = "A quantidade é equivalente a " + str(n) + " " + str(nome) + " mais " + str(r) + " " + unidade_text + "."
                 elif tipo == "CHAIN":
                     qtd = 1
                     for n in termos["fatores"]:qtd*=n

@@ -27,3 +27,5 @@
 [X] Refatorar pagamentos.
 [ ] Implementar a cópia da descrição do poduto o item de venda.
 [ ] Implementar a visualização e auditagem das vendas realizadas.
+[ ] Corrigir o delete do pack.
+[X] Melhorar a mensagem para o caso de produto não cadastrado em multiplicação em cadeia.

@@ -11,13 +11,16 @@
 <input class="form-control" name="codigo" placeholder="Código de barras" value="{{ pack_edicao[1] if pack_edicao else '' }}" >
 </div>
 <div class="col-md-5">
-<input class="form-control" name="nome" placeholder="Nome" value="{{ pack_edicao[2] if pack_edicao else '' }}" >
+<input class="form-control" name="nome_sg" placeholder="Nome (singular)" value="{{ pack_edicao[2] if pack_edicao else '' }}" >
 </div>
 <div class="col-md-5">
-<input class="form-control" name="mnemonico" placeholder="Mnemônico" value="{{ pack_edicao[3] if pack_edicao else "" }}" >
+<input class="form-control" name="nome_pl" placeholder="Nome (plural)" value="{{ pack_edicao[3] if pack_edicao else '' }}" >
+</div>
+<div class="col-md-5">
+<input class="form-control" name="mnemonico" placeholder="Mnemônico" value="{{ pack_edicao[4] if pack_edicao else "" }}" >
 </div>
 <div class="col-md-3">
-<input class="form-control" name="quantidade" placeholder="Qtd" value="{{ pack_edicao[4] if pack_edicao else '' }}" >
+<input class="form-control" name="quantidade" placeholder="Qtd" value="{{ pack_edicao[5] if pack_edicao else '' }}" >
 </div>
 <input type="hidden" name="id" value="{{ pack_edicao[0] if pack_edicao else ''}}">
 
@@ -38,7 +41,8 @@
 <thead class="table-dark">
 <tr>
 <th>Código</th>
-<th>Nome</th>
+<th>Nome (sing.)</th>
+<th>Nome (plur.)</th>
 <th>Mnemônico</th>
 <th>Qtd</th>
 </tr>
@@ -47,10 +51,11 @@
 <tbody>
 {% for p in packs %}
 <tr onclick="window.location='{{ url_for('pack.packs', editar_id=p[0]) }}'" style="cursor:pointer;">
-<td>{{ p[4] }}</td>
-<td>{{ p[1] }}</td>
+<td>{{ p[5] }}</td>
 <td>{{ p[2] }}</td>
+<td>{{ p[1] }}</td>
 <td>{{ p[3] }}</td>
+<td>{{ p[4] }}</td>
 </tr>
 {% endfor %}
 </tbody>

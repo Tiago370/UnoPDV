@@ -23,7 +23,8 @@ create table if not exists item_venda(
 
 create table if not exists pack(
     id integer primary key autoincrement,
-    nome text,
+    nome_pl text,
+    nome_sg text,
     mnemonico text,
     quantidade integer,
     codigo text,
