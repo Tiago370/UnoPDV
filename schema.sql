@@ -1,16 +1,16 @@
-create table if not exists produto(
+create table produto(
     id integer primary key autoincrement,
     codigo text unique,
     descricao text,
     preco real
 );
 
-create table if not exists venda(
+create table venda(
     id integer primary key autoincrement,
     data text
 );
 
-create table if not exists item_venda(
+create table item_venda(
     id integer primary key autoincrement,
     venda_id integer,
     produto_id integer,
@@ -21,7 +21,7 @@ create table if not exists item_venda(
     foreign key(produto_id) references produto(id)
 );
 
-create table if not exists pack(
+create table pack(
     id integer primary key autoincrement,
     nome_pl text,
     nome_sg text,
