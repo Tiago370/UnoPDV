@@ -9,10 +9,16 @@
 <div class="col-12 col-md-9">
 <input class="form-control form-control-lg" name="codigo" placeholder="Leia o código de barras" autofocus>
 </div>
+<div class="col-12 d-grid mt-2">
+<button type="button" id="btn-scan" class="btn btn-outline-primary">Ler código pela câmera</button>
+</div>
 <div class="col-12 col-md-3 d-grid">
 <button type="submit" class="btn btn-success btn-lg">Adicionar</button>
 </div>
 </form>
+
+<div id="reader" style="width:100%; max-width:400px; margin:20px auto; display:none;"></div>
+
 {% if message_type == "danger" %}
 <div class="alert alert-danger mt-3 mb-0" role="alert">
 {{ message_text|safe }}
@@ -74,6 +80,58 @@
 </div>
 </div>
 </div>
+<script src="https://unpkg.com/html5-qrcode"></script>
+<script>
+const btn = document.getElementById("btn-scan")
+const readerDiv = document.getElementById("reader")
+const input = document.querySelector('input[name="codigo"]')
+let scanner = null
+let cameraOn = false
+
+btn.addEventListener("click", () => {
+  if (cameraOn) {
+    stopScanner()
+    return
+  }
+
+  readerDiv.style.display = "block"
+  scanner = new Html5Qrcode("reader")
+
+  scanner.start(
+    { facingMode: "environment" },
+    {
+      fps: 10,
+      qrbox: 250,
+      formatsToSupport: [
+        Html5QrcodeSupportedFormats.EAN_13,
+        Html5QrcodeSupportedFormats.EAN_8,
+        Html5QrcodeSupportedFormats.CODE_128,
+        Html5QrcodeSupportedFormats.UPC_A,
+        Html5QrcodeSupportedFormats.UPC_E
+      ]
+    },
+    (decodedText) => {
+      input.value += decodedText
+      stopScanner()
+      input.form.submit()
+    }
+  )
+
+  cameraOn = true
+  btn.textContent = "Desligar câmera"
+})
+
+function stopScanner() {
+  if (scanner) {
+    scanner.stop().then(() => {
+      scanner.clear()
+      readerDiv.style.display = "none"
+      cameraOn = false
+      btn.textContent = "Ler código pela câmera"
+    })
+  }
+}
+</script>
 
 {% endblock %}
 
