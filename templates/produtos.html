@@ -24,6 +24,9 @@
 
 
 </form>
+<div class="text-center mt-3">
+    <svg id="barcode"></svg>
+</div>
 </div>
 </div>
 <div class="card mt-4 shadow-sm">
@@ -97,5 +100,29 @@
 </div>
 </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
+<script>
+function gerarCodigoDeBarras(valor){
+    if(!valor){
+        document.getElementById("barcode").innerHTML=""
+        return
+    }
+    JsBarcode("#barcode", valor, {
+        format: "CODE128",
+        lineColor: "#000",
+        width: 2,
+        height: 60,
+        displayValue: true
+    })
+}
+document.addEventListener("DOMContentLoaded", function(){
+    const inputCodigo=document.querySelector("input[name='codigo']")
+    gerarCodigoDeBarras(inputCodigo.value)
+    inputCodigo.addEventListener("input", function(){
+        gerarCodigoDeBarras(this.value)
+    })
+})
+</script>
+
 {% endblock %}
 
