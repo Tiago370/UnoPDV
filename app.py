@@ -1,5 +1,5 @@
 import re
-from flask import Flask,render_template,request,redirect,session,current_app
+from flask import Flask,render_template,request,redirect,session,current_app,jsonify
 import sqlite3,os,csv
 from datetime import datetime
 from utils import db, init_db, calcular_total
@@ -73,5 +73,9 @@ def configuracoes():
             conn.commit()
             conn.close()
     return render_template("configuracoes.html")
+
+@app.route("/terminal")
+def terminal():
+    return render_template("terminal-consulta.html")
 
 app.run(debug=True)

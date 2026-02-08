@@ -29,3 +29,7 @@
 [ ] Implementar a visualização e auditagem das vendas realizadas.
 [ ] Corrigir o delete do pack.
 [X] Melhorar a mensagem para o caso de produto não cadastrado em multiplicação em cadeia.
+[X] Criar tela de terminal de consulta.
+[ ] Melhorar os efeitos da rotação no terminal de consulta.
+[ ] Melhorar a formatação do preço no terminal de consulta.
+[ ] Implementar timers nas interações

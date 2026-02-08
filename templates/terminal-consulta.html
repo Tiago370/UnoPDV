@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Consulta de Preço</title>
+<script src="{{ url_for('static', filename='js/html5-qrcode.min.js') }}"></script>
+<style>
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    font-family: Arial, Helvetica, sans-serif;
+    overflow: hidden;
+}
+#tela {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#leitor {
+    width: 100%;
+    height: 100%;
+    display: none;
+}
+#resultado {
+    position: absolute;
+    bottom: 10%;
+    width: 100%;
+    text-align: center;
+    color: white;
+}
+#nome {
+    font-size: 3rem;
+}
+#preco {
+    font-size: 4.5rem;
+    font-weight: bold;
+    margin-top: 10px;
+}
+</style>
+</head>
+<body>
+
+<div id="tela"></div>
+<div id="leitor"></div>
+
+<div id="resultado">
+    <div id="nome"></div>
+    <div id="preco"></div>
+</div>
+
+<script>
+const tela = document.getElementById("tela")
+const leitorDiv = document.getElementById("leitor")
+const nomeDiv = document.getElementById("nome")
+const precoDiv = document.getElementById("preco")
+
+let leitor
+
+tela.addEventListener("click", async () => {
+    if (!document.fullscreenElement) {
+        await document.documentElement.requestFullscreen()
+    }
+    tela.style.display = "none"
+    leitorDiv.style.display = "block"
+    leitor = new Html5Qrcode("leitor")
+    leitor.start(
+        { facingMode: "environment" },
+        { fps: 10, qrbox: 300 },
+        codigo => {
+            leitor.stop()
+            leitorDiv.style.display = "none"
+            tela.style.display = "flex"
+            buscarProduto(codigo)
+        }
+    )
+})
+
+function buscarProduto(codigo) {
+    fetch(`/produto/${codigo}`)
+        .then(r => r.json())
+        .then(d => {
+            nomeDiv.textContent = d.nome
+            precoDiv.textContent = d.preco
+        })
+}
+</script>
+
+</body>
+</html>

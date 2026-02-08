@@ -49,3 +49,11 @@ def produtos():
     conn.close()
     total_pages=(total+per_page-1)//per_page
     return render_template("produtos.html",produtos=produtos,page=page,total_pages=total_pages,produto_edicao=produto_edicao)
+
+@produto_bp.route("/produto/<codigo>")
+def produto(codigo):
+    conn=db();cur=conn.cursor()
+    cur.execute("SELECT id, codigo, descricao, preco FROM produto WHERE codigo = ?", (codigo,))
+    produto = cur.fetchone()
+    conn.close()
+    return {"nome": produto[2], "preco": produto[3]}
